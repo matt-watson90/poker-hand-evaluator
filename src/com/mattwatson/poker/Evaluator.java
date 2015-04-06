@@ -1,4 +1,5 @@
 package com.mattwatson.poker;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,8 +11,9 @@ public class Evaluator
 
 	public String evaluateHand(String hand)
 	{
-		
-		if(hasFlush(hand) && hasStraight(hand)){
+
+		if (hasFlush(hand) && hasStraight(hand))
+		{
 			return "Straight Flush";
 		}
 		if (hasfourOfAKind(hand))
@@ -50,13 +52,17 @@ public class Evaluator
 	private boolean hasStraight(String hand)
 	{
 		String[] split = hand.split("\\s");
-		List<Integer> intValuesOfCardsAceHigh = convertCardsToIntegerValues(split, 14);
-		List<Integer> intValuesOfCardsAceLow = convertCardsToIntegerValues(split, 1);
-		
-		return sortCardValuesAndLookForStraight(intValuesOfCardsAceHigh) || sortCardValuesAndLookForStraight(intValuesOfCardsAceLow);
+		List<Integer> intValuesOfCardsAceHigh = convertCardsToIntegerValues(
+				split, 14);
+		List<Integer> intValuesOfCardsAceLow = convertCardsToIntegerValues(
+				split, 1);
+
+		return sortCardValuesAndLookForStraight(intValuesOfCardsAceHigh)
+				|| sortCardValuesAndLookForStraight(intValuesOfCardsAceLow);
 	}
 
-	private List<Integer> convertCardsToIntegerValues(String[] split, Integer defaultAceValue)
+	private List<Integer> convertCardsToIntegerValues(String[] split,
+			Integer defaultAceValue)
 	{
 		List<Integer> intValuesOfCards = new ArrayList<Integer>();
 		for (int i = 0; i < split.length; i++)
@@ -92,10 +98,10 @@ public class Evaluator
 	{
 		Collections.sort(intValuesOfCards);
 		boolean inOrder = true;
-		for (int i = 0; i < intValuesOfCards.size()-1; i++)
+		for (int i = 0; i < intValuesOfCards.size() - 1; i++)
 		{
 			Integer currentValue = intValuesOfCards.get(i);
-			Integer nextValue = intValuesOfCards.get(i+1);
+			Integer nextValue = intValuesOfCards.get(i + 1);
 			inOrder &= nextValue.equals(currentValue + 1);
 		}
 		return inOrder;
@@ -104,8 +110,8 @@ public class Evaluator
 	private boolean hasTwoPair(String hand)
 	{
 		String[] split = hand.split("\\s");
-		Map<String, Integer> setOfValues = addValueOfCardsToMap(split);
-		return setOfValues.size() == 3 && setOfValues.containsValue(2);
+		Map<String, Integer> frequencyMap = addValueOfCardsToMap(split);
+		return frequencyMap.size() == 3 && frequencyMap.containsValue(2);
 
 	}
 
@@ -126,22 +132,22 @@ public class Evaluator
 	private boolean hasfourOfAKind(String hand)
 	{
 		String[] split = hand.split("\\s");
-		Map<String, Integer> setOfValues = addValueOfCardsToMap(split);
-		return setOfValues.containsValue(4);
+		Map<String, Integer> frequencyMap = addValueOfCardsToMap(split);
+		return frequencyMap.containsValue(4);
 	}
 
 	private boolean hasThreeOfAKind(String hand)
 	{
 		String[] split = hand.split("\\s");
-		Map<String, Integer> setOfValues = addValueOfCardsToMap(split);
-		return setOfValues.containsValue(3);
+		Map<String, Integer> frequencyMap = addValueOfCardsToMap(split);
+		return frequencyMap.containsValue(3);
 	}
 
 	private Boolean hasPair(String hand)
 	{
 		String[] split = hand.split("\\s");
-		Map<String, Integer> setOfValues = addValueOfCardsToMap(split);
-		return setOfValues.containsValue(2);
+		Map<String, Integer> frequencyMap = addValueOfCardsToMap(split);
+		return frequencyMap.containsValue(2);
 	}
 
 	private Map<String, Integer> addValueOfCardsToMap(String[] split)
